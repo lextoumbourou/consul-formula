@@ -56,8 +56,6 @@ consul|install-consul:
   - source: {{ consul.source_url }}
   - source_hash: {{ consul.source_hash }}
   - archive_format: zip
-  - user: {{ consul.user }}
-  - group: {{ consul.group }}
   - if_missing: {{ consul.install_path }}/consul
 
 consul|deploy-upstart-config:
