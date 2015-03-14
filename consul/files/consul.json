@@ -1,0 +1,7 @@
+{
+  {% if is_ui %}
+  "ui_dir": "{{ home_dir }}/dist",
+  {% endif %}
+  "domain": "{{ domain }}",
+  "server": {{ 'true' if is_server else 'false' }},
+}
