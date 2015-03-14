@@ -5,6 +5,7 @@
 {%- set group = salt['pillar.get']('consul:group', 'consul') %}
 {%- set home_dir = salt['pillar.get']('consul:home', '/opt/consul') %}
 {%- set domain = salt['pillar.get']('consul:domain', 'consul.') %}
+{%- set source_url = 'https://dl.bintray.com/mitchellh/consul/' ~ version ~ '_linux_amd64.zip' %}
 
 {%- set targeting_method = salt['pillar.get']('consul:targeting_method', 'compound') %}
 {%- set server_target = salt['pillar.get']('consul:server_target') %}
@@ -18,7 +19,7 @@
 
     'install_path': install_path,
     'version': version,
-    'source_url': 'https://dl.bintray.com/mitchellh/consul/{{ consul_version }}_linux_amd64.zip',
+    'source_url': source_url,
     'source_hash': source_hash,
     'user': user,
     'group': group,
