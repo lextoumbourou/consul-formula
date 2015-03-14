@@ -1,4 +1,5 @@
 {%- from 'consul/settings.sls' import consul with context %}
+{%- set is_bootstrap = salt['pillar.get']('consul_bootstrap') %}
 
 consul|install-system-pkgs:
   pkg.installed:
@@ -47,6 +48,7 @@ consul|deploy-config:
       is_ui: {{ consul.is_ui }}
       home_dir: {{ consul.home_dir }}
       domain: {{ consul.domain }}
+      is_bootstrap: {{ is_bootstrap }}
 
 consul|install-consul:
   archive.extracted:

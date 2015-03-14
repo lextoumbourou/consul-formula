@@ -2,6 +2,10 @@
   {% if is_ui %}
   "ui_dir": "{{ home_dir }}/dist",
   {% endif %}
+  {% if is_bootstrap %}
+  "bootstrap": true,
+  {% endif %}
   "domain": "{{ domain }}",
-  "server": {{ 'true' if is_server else 'false' }},
+  "data_dir": "{{ home_dir }}/data",
+  "server": {{ 'true' if is_server else 'false' }}
 }
