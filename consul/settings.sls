@@ -4,6 +4,7 @@
 {%- set user = salt['pillar.get']('consul:user', 'consul') %}
 {%- set group = salt['pillar.get']('consul:group', 'consul') %}
 {%- set home_dir = salt['pillar.get']('consul:home', '/opt/consul') %}
+{%- set domain = salt['pillar.get']('consul:domain', 'consul.') %}
 
 {%- set targeting_method = salt['pillar.get']('consul:targeting_method', 'compound') %}
 {%- set server_target = salt['pillar.get']('consul:server_target') %}
@@ -26,6 +27,7 @@
     'config_file': '/etc/consul.conf',
     'log_file': '/var/log/consul.log',
     'is_server': is_server,
-    'is_ui': is_ui
+    'is_ui': is_ui,
+    'domain': domain
 
 }) %}

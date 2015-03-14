@@ -44,6 +44,9 @@ consul|deploy-config:
     - template: jinja
     - context:
       is_server: {{ consul.is_server }} 
+      is_ui: {{ consul.is_ui }}
+      home_dir: {{ consul.home_dir }}
+      domain: {{ consul.domain }}
 
 consul|install-consul:
   archive.extracted:
@@ -65,7 +68,6 @@ consul|deploy-upstart-config:
       group: {{ consul.group }}
       install_path: {{ consul.install_path }}
       config_dir: {{ consul.config_dir }}
-      home_dir: {{ consul.home_dir }}
       config_file: {{ consul.config_file }}
       log_file: {{ consul.log_file }}
 
