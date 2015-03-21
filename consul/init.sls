@@ -80,8 +80,17 @@ consul|ensure-started:
       - file: consul|deploy-config
       - file: consul|deploy-upstart-config
 
-{% if consul.is_server and consul.join_server %}
+{%- if consul.is_server and consul.join_server %}
 consul|join-cluster:
   cmd.run:
     - name: consul join {{ consul.join_server }}
+{%- endif %}
+
+{% if consul.is_ui %}
+consul|install-web-ui:
+  archive.extracted:
+    - name: {{ consul.install_path }}
+    - source: {{ consul.ui_source_url }}
+    - source_hash: {{ consul.ui_source_hash }}
+    - archive_format: zip
 {%- endif %}
