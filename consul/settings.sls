@@ -7,12 +7,23 @@
 {%- set domain = salt['pillar.get']('consul:domain', 'consul.') %}
 {%- set source_url = 'https://dl.bintray.com/mitchellh/consul/' ~ version ~ '_linux_amd64.zip' %}
 
-{%- set targeting_method = salt['pillar.get']('consul:targeting_method', 'compound') %}
+{%- set targeting_method = salt['pillar.get']('consul:targeting_method', 'glob') %}
 {%- set server_target = salt['pillar.get']('consul:server_target') %}
 {%- set ui_target = salt['pillar.get']('consul:ui_target') %}
+{%- set bootstrap_target = salt['pillar.get']('consul:bootstrap_target') %}
 
 {%- set is_server = salt['match.' ~ targeting_method](server_target) %}
 {%- set is_ui = salt['match.' ~	targeting_method](server_target) %}
+
+{%- set nodename = salt['grains.get']('nodename') %}
+{%- set force_mine_update = salt['mine.send']('network.get_hostname') %}
+{%- set servers = salt['mine.get'](server_target, 'network.get_hostname', targeting_method).values() %}
+
+# Create a list of servers that can be used to join the cluster
+{%- set join_server = None %}
+{%- for server in servers if server != nodename %}
+    {%- set join_server = server %}
+{%- endfor %}
 
 {%- set consul = {} %}
 {%- do consul.update({
@@ -29,6 +40,9 @@
     'log_file': '/var/log/consul.log',
     'is_server': is_server,
     'is_ui': is_ui,
-    'domain': domain
+    'domain': domain,
+    'servers': server,
+    'bootstrap_target': bootstrap_target,
+    'join_server': join_server
 
 }) %}
