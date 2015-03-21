@@ -2,6 +2,10 @@
 
 Salt formula to setup and configure [Consul](https://www.consul.io/docs/index.html).
 
+## Status
+
+Not production ready (out of the box). Close, but not there just yet. To get it working will require a bit of fiddling until I get a chance to test this 100%. Sorry, just mad busy right now...
+
 ***
 
 ## Configuration overview
