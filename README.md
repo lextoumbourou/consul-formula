@@ -49,7 +49,7 @@ consul:
 Because Bootstraping is a one off task and should only be run on the first node in the cluster, you can perform a Bootstrap on one node by manually pass in a ``consul_bootstrap`` Pillar arg using ``state.sls``.
 
 ```
-salt 'consul-server01' state.sls consul pillar={'consul_bootstrap': true}
+salt 'consul-server01' state.sls consul pillar='{'consul_bootstrap': true}'
 ```
 
 *Note: do not set ``consul_boostrap`` to ``true`` in your Pillar files!*
