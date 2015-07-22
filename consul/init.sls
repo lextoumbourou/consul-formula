@@ -52,11 +52,16 @@ consul|deploy-config:
 
 consul|install-consul:
   archive.extracted:
-  - name: {{ consul.install_path }}
-  - source: {{ consul.source_url }}
-  - source_hash: {{ consul.source_hash }}
-  - archive_format: zip
-  - if_missing: {{ consul.install_path }}/consul
+    - name: {{ consul.install_path }}
+    - source: {{ consul.source_url }}
+    - source_hash: {{ consul.source_hash }}
+    - archive_format: zip
+    - if_missing: {{ consul.install_path }}/consul
+  file.managed:
+    - name: {{ consul.install_path }}/consul
+    - mode: 0755
+    - require:
+      - archive: consul|install-consul
 
 consul|deploy-upstart-config:
   file.managed:
