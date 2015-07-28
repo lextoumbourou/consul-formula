@@ -17,7 +17,7 @@
 {%- set bootstrap_target = salt['pillar.get']('consul:bootstrap_target') %}
 
 {%- set is_server = salt['match.' ~ targeting_method](server_target) %}
-{%- set is_ui = salt['match.' ~	targeting_method](server_target) %}
+{%- set is_ui = salt['match.' ~	targeting_method](is_ui) %}
 
 {%- set nodename = salt['grains.get']('nodename') %}
 {%- set force_mine_update = salt['mine.send']('network.get_hostname') %}
