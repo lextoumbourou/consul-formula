@@ -1,6 +1,11 @@
 {
   {% if is_ui %}
-  "ui_dir": "{{ home_dir }}/dist",
+  "ui_dir": "{{ ui_install_path }}/dist",
+     {% if ui_public_target %}
+  "addresses" : {
+    "http": "{{ salt['network.interfaces']()['eth0']['inet'][0]['address'] }}"
+     },
+     {% endif %}
   {% endif %}
   {% if is_bootstrap %}
   "bootstrap": true,

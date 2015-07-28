@@ -34,6 +34,16 @@ consul:
   # ..
   ui_target: 'consul-web01'
 ```
+Setting this will bring up the UI bound to localhost and available via a SSH tunnel. The default install directory is /opt/consul/ui.
+
+If you wish to make the a minion a public facing UI (ie bind's to eth0 and not localhost) then set ``ui_public_target``:
+```
+consul:
+  # ..
+  ui_target: 'consul-web01'
+  ui_public_target: 'consul-web01'
+```
+and UI will be available on http://consul-web01:8500/ui
 
 If you would prefer to do a ``compound`` or ``grain`` match or some other match type, you can add the ``targeting_method`` field to Pillar:
 
