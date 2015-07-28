@@ -49,6 +49,8 @@ consul|deploy-config:
       home_dir: {{ consul.home_dir }}
       domain: {{ consul.domain }}
       is_bootstrap: {{ is_bootstrap }}
+      ui_install_path: {{ consul.ui_install_path }}
+      ui_public_target: {{ consul.ui_public_target }}
 
 consul|install-consul:
   archive.extracted:
@@ -80,7 +82,10 @@ consul|ensure-started:
   service.running:
     - name: consul
     - enable: True
-    - reload: True
+    # Reload set to true will just do a HUP which won't bring the UI/SSL
+    # https://consul.io/docs/agent/options.html#reloadable-configuration
+    # Says that Log level, checks, services, watches, http client address only
+    - reload: False
     - watch:
       - file: consul|deploy-config
       - file: consul|deploy-upstart-config
@@ -94,7 +99,7 @@ consul|join-cluster:
 {% if consul.is_ui %}
 consul|install-web-ui:
   archive.extracted:
-    - name: {{ consul.install_path }}
+    - name: {{ consul.ui_install_path }}
     - source: {{ consul.ui_source_url }}
     - source_hash: {{ consul.ui_source_hash }}
     - archive_format: zip
