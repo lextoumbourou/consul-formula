@@ -1,4 +1,7 @@
 {
+  {% if datacenter %}
+  "datacenter": "{{ datacenter }}",
+  {% endif %}
   {% if is_ui %}
   "ui_dir": "{{ ui_install_path }}/dist",
      {% if ui_public_target %}
