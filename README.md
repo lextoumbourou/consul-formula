@@ -18,6 +18,28 @@ base:
     - consul
 ```
 
+## Setting the Datacenter
+
+You may optionally set the desired [datacenter](https://www.consul.io/docs/guides/datacenters.html) from a pillar or a grain. By default
+consul.io will put the nodes in DC1.
+
+To specify a datacenter for a group of nodes, add the ``datacenter`` field to the ``consul`` object in Pillar:
+```
+consul:
+  datacenter: 'datacenter6'
+```
+
+You may also set a specifc node to a datacenter via a grain:
+```
+salt <node> grains.setval datacenter dev
+```
+which will populate /etc/salt/grains with the key of datacenter and value of "dev"
+
+To delete the grain 
+```
+salt <node> grains.delval datacenter destructive=True 
+```
+
 ## Targeting servers and ui hosts
 
 To specify which nodes will behave as Consul [servers](http://www.consul.io/docs/guides/servers.html), add the ``server_target`` field to the ``consul`` object in Pillar. Which, by default, accepts a Glob match of servers:
@@ -36,7 +58,7 @@ consul:
 ```
 Setting this will bring up the UI bound to localhost and available via a SSH tunnel. The default install directory is /opt/consul/ui.
 
-If you wish to make the a minion a public facing UI (ie bind's to eth0 and not localhost) then set ``ui_public_target``:
+If you wish to make a minion a public facing UI (ie bind's to eth0 and not localhost) then set ``ui_public_target``:
 ```
 consul:
   # ..
