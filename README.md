@@ -67,6 +67,28 @@ consul:
 ```
 and UI will be available on http://consul-web01:8500/ui
 
+You may also set a specifc node to a ui_target via a grain:
+```
+salt <node> grains.setval consul_ui_target True
+```
+which will populate /etc/salt/grains with the key of consul_ui_target and value of "True"
+
+To delete the grain 
+```
+salt <node> grains.delval consul_ui_target destructive=True 
+```
+
+You may also set a specifc node to a server via a grain:
+```
+salt <node> grains.setval consul_server_target True
+```
+which will populate /etc/salt/grains with the key of consul_server_target and value of "True"
+
+To delete the grain 
+```
+salt <node> grains.delval consul_server_target destructive=True 
+```
+
 If you would prefer to do a ``compound`` or ``grain`` match or some other match type, you can add the ``targeting_method`` field to Pillar:
 
 ```

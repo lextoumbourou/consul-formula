@@ -13,13 +13,26 @@
 {%- set ui_source_hash = salt['pillar.get']('consul:ui_source_hash', 'md5=eb98ba602bc7e177333eb2e520881f4f') %}
 
 {%- set targeting_method = salt['pillar.get']('consul:targeting_method', 'glob') %}
-{%- set server_target = salt['pillar.get']('consul:server_target') %}
-{%- set ui_target = salt['pillar.get']('consul:ui_target') %}
+
+{%- if salt['grains.get']('consul_server_target') != '': %}
+       {%- set server_target = salt['grains.get']('consul_server_target') %}
+       {%- set is_server = True %}
+{%- else %}
+       {%- set server_target = salt['pillar.get']('consul:server_target') %}
+       {%- set is_server = salt['match.' ~ targeting_method](server_target) %}
+{%- endif %}
+
+{%- if salt['grains.get']('consul_ui_target') != '': %}
+       {%- set ui_target = salt['grains.get']('consul_ui_target') %}
+       {%- set is_ui = True %}
+{%- else %}
+       {%- set ui_target = salt['pillar.get']('consul:ui_target') %}
+       {%- set is_ui = salt['match.' ~	targeting_method](ui_target) %}
+{%- endif %}
+
 {%- set ui_public_target = salt['pillar.get']('consul:ui_public_target') %}
 {%- set bootstrap_target = salt['pillar.get']('consul:bootstrap_target') %}
 
-{%- set is_server = salt['match.' ~ targeting_method](server_target) %}
-{%- set is_ui = salt['match.' ~	targeting_method](ui_target) %}
 {%- set ui_public_target = salt['match.' ~ targeting_method](ui_public_target) %}
 
 {%- if salt['grains.get']('datacenter') != '': %}
