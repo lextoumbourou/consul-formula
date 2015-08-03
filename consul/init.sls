@@ -51,6 +51,7 @@ consul|deploy-config:
       is_bootstrap: {{ is_bootstrap }}
       ui_install_path: {{ consul.ui_install_path }}
       ui_public_target: {{ consul.ui_public_target }}
+      datacenter: {{ consul.datacenter }}
 
 consul|install-consul:
   archive.extracted:
