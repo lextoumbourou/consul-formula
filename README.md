@@ -6,6 +6,8 @@ Salt formula to setup and configure [Consul](https://www.consul.io/docs/index.ht
 
 Not production ready (out of the box). Close, but not there just yet. To get it working will require a bit of fiddling until I get a chance to test this 100%. Sorry, just mad busy right now...
 
+This module will also use iptables (when OS matches CentOS) to configure the firewall. If a ui_public_target is specified, then port 8500 will be open. If server_target is specified then 8301 and 8300 will be opened
+
 ***
 
 ## Configuration overview
