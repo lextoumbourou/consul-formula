@@ -5,6 +5,7 @@
 {%- set group = salt['pillar.get']('consul:group', 'consul') %}
 {%- set home_dir = salt['pillar.get']('consul:home', '/opt/consul') %}
 {%- set domain = salt['pillar.get']('consul:domain', 'consul.') %}
+{%- set manage_firewall = salt['pillar.get']('consul:manage_firewall', False) %}
 
 {%- set source_url = 'https://dl.bintray.com/mitchellh/consul/' ~ version ~ '_linux_amd64.zip' %}
 {%- set source_hash =  salt['pillar.get']('consul:source_hash', 'md5=37000419d608fd34f0f2d97806cf7399') %}
@@ -75,6 +76,7 @@
     'servers': server,
     'bootstrap_target': bootstrap_target,
     'join_server': join_server,
-    'datacenter': datacenter
+    'datacenter': datacenter,
+    'manage_firewall': manage_firewall
 
 }) %}
