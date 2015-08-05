@@ -1,6 +1,12 @@
 {%- from 'consul/settings.sls' import consul with context %}
 {%- set is_bootstrap = salt['pillar.get']('consul_bootstrap') %}
 
+{# Include the firewall state if we're letting consul manage our firewall #}
+{%- if consul.manage_firewall %}
+include: 
+   - .firewall
+{% endif %}
+
 consul|install-system-pkgs:
   pkg.installed:
     - names:
