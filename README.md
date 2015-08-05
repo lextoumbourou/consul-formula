@@ -6,8 +6,6 @@ Salt formula to setup and configure [Consul](https://www.consul.io/docs/index.ht
 
 Not production ready (out of the box). Close, but not there just yet. To get it working will require a bit of fiddling until I get a chance to test this 100%. Sorry, just mad busy right now...
 
-***
-
 ## Configuration overview
 
 The Consul agent will usually be run on every host in your environment, so your top.sls file may look something like this:
@@ -96,6 +94,17 @@ consul:
   # ..
   server_target: 'consul:server'
   targeting_method: 'grain'
+```
+
+## Enabling Firewall Management
+
+This module will also use iptables (when OS matches CentOS or RedHat) to configure the firewall. If a ui_public_target is specified, then port 8500 will be open. If server_target is specified then 8301 and 8300 will be opened.
+
+To enable this simply add manage_firewall: True to the consul Pillar:
+```
+consul:
+  # ..
+  manage_firewall: True
 ```
 
 ## Bootstrapping a datacenter (first run)
