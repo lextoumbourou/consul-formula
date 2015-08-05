@@ -1,4 +1,6 @@
-{%- if consul.manage_firewall != False and grains['os'] == 'CentOS' or grains['os'] == 'RedHat'  %}
+{%- from 'consul/settings.sls' import consul with context %}
+
+{%- if consul.manage_firewall == True and grains['os'] == 'CentOS' or grains['os'] == 'RedHat'  %}
 {%- if consul.is_server %}
 consul|configure-serf-firewall:
   iptables.append:
