@@ -94,8 +94,9 @@ consul|ensure-started:
 {%- if consul.is_server and consul.join_server %}
 consul|join-cluster:
   cmd.run:
-    - name: consul join {{ consul.join_server }}
+    - name: {{ consul.install_path }}/consul join {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }}
 {%- endif %}
+    - creates: {{ consul.home_dir }}/data/raft/peers.json
 
 
 {% if consul.is_ui %}
