@@ -94,8 +94,9 @@ consul|ensure-started:
 {%- if consul.is_server and consul.join_server %}
 consul|join-cluster:
   cmd.run:
-    - name: consul join {{ consul.join_server }}
+    - name: {{ consul.install_path }}/consul join {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }}
 {%- endif %}
+    - creates: {{ consul.home_dir }}/data/raft/peers.json
 
 
 {% if consul.is_ui %}
@@ -105,72 +106,4 @@ consul|install-web-ui:
     - source: {{ consul.ui_source_url }}
     - source_hash: {{ consul.ui_source_hash }}
     - archive_format: zip
-{%- endif %}
-
-{%- if grains['os'] == 'CentOS' %}
-{%- if consul.is_server %}
-consul|configure-serf-firewall:
-  iptables.append:
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 8301
-    - proto: tcp
-consul|configure-server-firewall:
-  iptables.append:
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 8300
-    - proto: tcp
-{% else %}
-consul|remove-serf-server-firewall:
-  iptables.delete:
-    - name: consul.io_remove_serf_lan
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 8301
-    - proto: tcp
-consul|remove-server-firewall:
-  iptables.delete:
-    - name: consul.io_remove_server
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 8300
-    - proto: tcp
-{%- endif %}
-
-{% if consul.ui_public_target %}
-consul|configure-ui-firewall:
-  iptables.append:
-    - name: consul.io_configure_ui_firewall
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 8500
-    - proto: tcp
-{% else %}
-consul|remove-ui-firewall:
-  iptables.delete:
-    - name: consul.io_remove_ui_firewall
-    - table: filter
-    - chain: INPUT
-    - jump: ACCEPT
-    - match: state
-    - connstate: NEW
-    - dport: 8500
-    - proto: tcp
-{%- endif %}
 {%- endif %}
