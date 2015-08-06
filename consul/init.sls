@@ -101,8 +101,8 @@ consul|ensure-started:
 consul|join-cluster:
   cmd.run:
     - name: {{ consul.install_path }}/consul join {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }}
-{%- endif %}
     - creates: {{ consul.home_dir }}/data/raft/peers.json
+{%- endif %}
 
 
 {% if consul.is_ui %}
