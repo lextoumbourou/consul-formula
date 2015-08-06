@@ -3,7 +3,8 @@
 {%- if consul.manage_firewall == True and grains['os'] == 'CentOS' or grains['os'] == 'RedHat'  %}
 {%- if consul.is_server %}
 consul|configure-serf-firewall:
-  iptables.append:
+  iptables.insert:
+    - position: 1
     - table: filter
     - chain: INPUT
     - jump: ACCEPT
@@ -12,7 +13,8 @@ consul|configure-serf-firewall:
     - dport: 8301
     - proto: tcp
 consul|configure-server-firewall:
-  iptables.append:
+  iptables.insert:
+    - position: 1
     - table: filter
     - chain: INPUT
     - jump: ACCEPT
@@ -43,9 +45,10 @@ consul|remove-server-firewall:
     - proto: tcp
 {%- endif %}
 
-{% if consul.ui_public_target %}
+{% if consul.is_ui and consul.ui_public_target %}
 consul|configure-ui-firewall:
-  iptables.append:
+  iptables.insert:
+    - position: 1
     - name: consul.io_configure_ui_firewall
     - table: filter
     - chain: INPUT
