@@ -126,7 +126,7 @@ Then, you can add servers like so:
 salt 'consul-server0[2-5]' state.sls consul
 ```
 
-Once the datacentre is bootstraped and you have more than 1 node, you can reapply the Salt state the the first, bootstrapped node without setting the ``consul_bootstrap`` Pillar, to take it out of bootstrap mode.
+Once the datacentre is bootstraped and you have more than 1 node, you can reapply the Salt state the first, bootstrapped node without setting the ``consul_bootstrap`` Pillar, to take it out of bootstrap mode.
 
 ```
 salt 'consul-server01' state.sls consul
