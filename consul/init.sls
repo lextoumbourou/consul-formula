@@ -1,6 +1,12 @@
 {%- from 'consul/settings.sls' import consul with context %}
 {%- set is_bootstrap = salt['pillar.get']('consul_bootstrap') %}
 
+{# Include the firewall state if we're letting consul manage our firewall #}
+{%- if consul.manage_firewall %}
+include: 
+   - .firewall
+{% endif %}
+
 consul|install-system-pkgs:
   pkg.installed:
     - names:
@@ -94,8 +100,10 @@ consul|ensure-started:
 {%- if consul.is_server and consul.join_server %}
 consul|join-cluster:
   cmd.run:
-    - name: consul join {{ consul.join_server }}
+    - name: {{ consul.install_path }}/consul join {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }} {{ consul.join_server|random }}
+    - creates: {{ consul.home_dir }}/data/raft/peers.json
 {%- endif %}
+
 
 {% if consul.is_ui %}
 consul|install-web-ui:
